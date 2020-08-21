@@ -99,7 +99,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 export default {
   methods: {
-    async pressed() {
+    async onSubmit() {
       try {
         await firebase
           .auth()

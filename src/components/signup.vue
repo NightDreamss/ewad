@@ -11,7 +11,8 @@
           <h1 class="font-semibold text-2xl text-center py-10">
             Welcome To
           </h1>
-
+          <p id="errorAuth" class="text-xs text-red-500 text-center pb-6"></p>
+          <p id="errorDB" class="text-xs text-red-500 text-center pb-6"></p>
           <div class="md:flex md:items-center mb-6">
             <div class=" md:w-1/5">
               <label
@@ -122,19 +123,30 @@ export default {
           .createUserWithEmailAndPassword(
             this.formData.email,
             this.formData.password
-          );
-        this.$router.replace({ name: "PrivateHome" });
-        const id = await firebase.auth().currentUser.uid;
-        db.collection("app")
-          .doc("users")
-          .collection(id)
-          .add({
-            username: `${this.formData.username}`,
-            email: `${this.formData.email}`,
-            password: `${this.formData.password}`,
+          )
+          .catch(function(e) {
+            const error = document.getElementById("errorAuth");
+            const errorMessage = document.createTextNode(e.message);
+            error.appendChild(errorMessage);
           })
-          .catch(function(error) {
-            console.error("Error adding document: ", error);
+          .then(() => {
+            const id = firebase.auth().currentUser.uid;
+            db.collection("app")
+              .doc("users")
+              .collection(id)
+              .add({
+                username: `${this.formData.username}`,
+                email: `${this.formData.email}`,
+                password: `${this.formData.password}`,
+              })
+              .catch(function(e) {
+                const error = document.getElementById("errorDB");
+                const errorMessage = document.createTextNode(e.message);
+                error.appendChild(errorMessage);
+              })
+              .then(() => {
+                this.$router.replace({ name: "PrivateHome" });
+              });
           });
       } catch (error) {
         console.log(error);
