@@ -11,7 +11,7 @@
           <h1 class="font-semibold text-2xl text-center py-10">
             Welcome Back To
           </h1>
-
+          <p id="errorAuth" class="text-xs text-red-500 text-center pb-6"></p>
           <div class="md:flex md:items-center mb-6">
             <div class=" md:w-1/5">
               <label
@@ -106,8 +106,15 @@ export default {
           .signInWithEmailAndPassword(
             this.formData.email,
             this.formData.password
-          );
-        this.$router.replace({ name: "PrivateHome" });
+          )
+          .catch(function(e) {
+            const error = document.getElementById("errorAuth");
+            const errorMessage = document.createTextNode(e.message);
+            error.appendChild(errorMessage);
+          })
+          .then(() => {
+            this.$router.replace({ name: "PrivateHome" });
+          });
       } catch (error) {
         console.log(error);
       }
