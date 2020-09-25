@@ -8,7 +8,7 @@
 
 <script>
 import Navbar from "@/components/navbar";
-import Home from "@/components/home";
+import Home from "@/components/marketingHome";
 import Footer from "@/components/footer";
 
 export default {

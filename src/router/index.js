@@ -3,7 +3,10 @@ import VueRouter from "vue-router";
 import Home from "../views/LandingPage.vue";
 import Login from "../views/Login.vue";
 import Signup from "../views/Signup.vue";
-import PrivateHome from "../views/PrivateHome.vue";
+import GuestLogin from "../views/GuestLogin.vue";
+import StudentHome from "../views/StudentHome.vue";
+import MarketingHome from "../views/MarketingHome.vue";
+import CoordinatorHome from "../views/CoordinatorHome.vue";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
@@ -21,14 +24,31 @@ const routes = [
     component: Login,
   },
   {
+    path: "/guest_login",
+    name: "Guest Login",
+    component: GuestLogin,
+  },
+  {
     path: "/signup",
     name: "Signup",
     component: Signup,
   },
   {
     path: "/home",
-    name: "PrivateHome",
-    component: PrivateHome,
+    name: "MarketingHome",
+    component: MarketingHome,
+    meta: { Auth: true },
+  },
+  {
+    path: "/home",
+    name: "CoordinatorHome",
+    component: CoordinatorHome,
+    meta: { Auth: true },
+  },
+  {
+    path: "/home",
+    name: "StudentHome",
+    component: StudentHome,
     meta: { Auth: true },
   },
 ];
