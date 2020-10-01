@@ -32,9 +32,16 @@ export default {
       .get()
       .then((doc) => {
         const data = {
-          id: doc.id,
           email: doc.data().email,
         };
+        const userType = doc.data().userType;
+        if (userType == "1") {
+          this.$router.replace({ name: "MarketingHome" });
+        } else if (userType == "2") {
+          this.$router.push({ name: "CoordinatorHome" }).catch(() => {});
+        } else if (userType == "3") {
+          this.$router.replace({ name: "StudentHome" });
+        }
         this.userInfo.push(data);
       });
   },

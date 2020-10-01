@@ -126,7 +126,7 @@ export default {
           .catch(function (e) {
             const error = document.getElementById("errorAuth");
             const errorMessage = document.createTextNode(e.message);
-            error.appendChild(errorMessage);
+            error.innerHTML = errorMessage.textContent;
           })
           .then(() => {
             const id = firebase.auth().currentUser.uid;

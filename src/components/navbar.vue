@@ -8,12 +8,7 @@
       <nav
         class="md:ml-auto flex flex-wrap items-center text-base justify-center font-serif"
       >
-        <router-link
-          v-if="loggedIn"
-          to="/home"
-          class="mr-5 hover:text-gray-900 cursor-pointer"
-          >Home</router-link
-        >
+        <router-link v-if="loggedIn" to="/"></router-link>
         <router-link
           v-else
           to="/"
@@ -55,7 +50,7 @@ export default {
     async signOut() {
       try {
         await firebase.auth().signOut();
-        this.$router.replace({ name: "Home" });
+        this.$router.push({ name: "Home" }).catch(() => {});
       } catch (error) {
         console.log(error);
       }
