@@ -9,6 +9,7 @@ import MarketingHome from "../views/MarketingHome.vue";
 import CoordinatorHome from "../views/CoordinatorHome.vue";
 import CreatePost from "../views/CreatePost.vue";
 import EditPost from "../views/EditPost.vue";
+import ViewPost from "../views/ViewPost.vue";
 import Post from "../views/Post.vue";
 import * as firebase from "firebase/app";
 import "firebase/auth";
@@ -68,6 +69,11 @@ const routes = [
         path: "EditPost",
         name: "EditPost",
         component: EditPost,
+      },
+      {
+        path: ":post_id",
+        name: "ViewPost",
+        component: ViewPost,
       },
     ],
   },

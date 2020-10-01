@@ -107,7 +107,21 @@
               </button>
             </div>
           </div>
-          <div class="text-center"></div>
+          <div class="flex">
+            <div class="my-auto mx-auto w-1/3 mt-6">
+              <router-link
+                :to="{ name: 'Post' }"
+                class="mr-5 hover:text-gray-900 cursor-pointer"
+              >
+                <button
+                  class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
+                  type="button"
+                >
+                  Cancel
+                </button>
+              </router-link>
+            </div>
+          </div>
         </form>
       </ValidationObserver>
     </div>
@@ -162,6 +176,8 @@ export default {
                           description: `${this.formData.description}`,
                           imageURL: `${this.formData.imageURL}`,
                           fileURL: `${this.formData.fileURL}`,
+                          date: firebase.firestore.FieldValue.serverTimestamp(),
+                          status: "UNPUBLISHED",
                         })
                         .catch(function (e) {
                           const error = document.getElementById("errorDB");
@@ -172,7 +188,7 @@ export default {
                         })
                         .then(() => {
                           alert("You've successfully created a post");
-                          this.$router.replace({ name: "StudentHome" });
+                          this.$router.replace({ name: "Post" });
                         });
                     });
                 });
