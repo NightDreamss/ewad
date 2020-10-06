@@ -1,6 +1,6 @@
 <template>
   <section
-    class="md:h-screen h-auto w-full py-24 flex align-middle bg-gray-100"
+    class="md:min-h-screen h-auto w-full py-24 flex align-middle bg-gray-100"
   >
     <div class="container max-w-2xl w-full my-auto mx-auto">
       <ValidationObserver v-slot="{ handleSubmit }">
@@ -146,7 +146,7 @@ Vue.use(DropDownListPlugin);
 
 export default {
   methods: {
-    onUserSelected: function() {
+    onUserSelected: function () {
       let userType = document.getElementById("user").value;
       if (userType != "Marketing Manager") {
         this.Hidden = true;
@@ -164,7 +164,7 @@ export default {
             this.formData.email,
             this.formData.password
           )
-          .catch(function(e) {
+          .catch(function (e) {
             const error = document.getElementById("errorAuth");
             const errorMessage = document.createTextNode(e.message);
             error.appendChild(errorMessage);
@@ -179,7 +179,7 @@ export default {
                 email: `${this.formData.email}`,
                 password: `${this.formData.password}`,
               })
-              .catch(function(e) {
+              .catch(function (e) {
                 const error = document.getElementById("errorDB");
                 const errorMessage = document.createTextNode(e.message);
                 error.appendChild(errorMessage);
@@ -199,7 +199,7 @@ export default {
       }
     },
   },
-  data: function() {
+  data: function () {
     return {
       Hidden: false,
       dataQuery: "All",

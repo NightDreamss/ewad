@@ -1,35 +1,6 @@
 <template>
   <section class="md:min-h-screen h-auto w-full flex align-middle bg-gray-100">
     <div class="container px-5 py-24 mx-auto">
-      <div class="md:flex my-4">
-        <div class="my-auto">
-          <router-link
-            v-bind:to="{
-              name: 'EditPost',
-              params: {
-                post_id: post_id,
-                post_email: post_email,
-                post_title: post_title,
-                post_description: post_description,
-                post_date: post_date,
-                post_faculty: post_faculty,
-                post_file: post_file,
-                post_image: post_image,
-                post_status: post_status,
-                post_studentID: post_studentID,
-              },
-            }"
-            class="mr-5 hover:text-gray-900 cursor-pointer"
-          >
-            <button
-              class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
-              type="button"
-            >
-              Edit Post
-            </button>
-          </router-link>
-        </div>
-      </div>
       <section class="h-auto w-full flex align-middle bg-white rounded-lg p-4">
         <h1 class="container w-full my-auto mx-auto">
           <h1

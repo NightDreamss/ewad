@@ -8,7 +8,30 @@
       <nav
         class="md:ml-auto flex flex-wrap items-center text-base justify-center font-serif"
       >
-        <router-link v-if="loggedIn" to="/"></router-link>
+        <router-link
+          v-if="userType == '1'"
+          class="mr-5 hover:text-gray-900 cursor-pointer"
+          :to="{ name: 'AllPost' }"
+          >Home</router-link
+        >
+        <router-link
+          v-else-if="userType == '2'"
+          class="mr-5 hover:text-gray-900 cursor-pointer"
+          :to="{ name: 'CoordinatorHome' }"
+          >Home</router-link
+        >
+        <router-link
+          v-else-if="userType == '3'"
+          class="mr-5 hover:text-gray-900 cursor-pointer"
+          :to="{ name: 'Post' }"
+          >Home</router-link
+        >
+        <router-link
+          v-else-if="userType == '4'"
+          class="mr-5 hover:text-gray-900 cursor-pointer"
+          :to="{ name: 'Reports' }"
+          >Home</router-link
+        >
         <router-link
           v-else
           to="/"
@@ -41,6 +64,7 @@ export default {
       this.loggedIn = !!userLogged;
     });
   },
+  props: ["userType"],
   data() {
     return {
       loggedIn: false,

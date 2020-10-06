@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Navbar v-bind:userType="userType" />
     <GuestLogin />
     <Footer />
   </div>
@@ -17,6 +17,14 @@ export default {
     GuestLogin,
     Navbar,
     Footer,
+  },
+  created() {
+    this.$router.push({ name: "ChooseFaculty" });
+  },
+  data() {
+    return {
+      userType: "4",
+    };
   },
 };
 </script>

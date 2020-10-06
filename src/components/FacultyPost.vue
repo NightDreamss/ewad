@@ -1,21 +1,6 @@
 <template>
   <div class="md:min-h-screen h-auto w-full flex align-middle bg-gray-100">
     <div class="container px-5 py-24 mx-auto">
-      <div class="md:flex my-4">
-        <div class="my-auto">
-          <router-link
-            :to="{ name: 'CreatePost' }"
-            class="mr-5 hover:text-gray-900 cursor-pointer"
-          >
-            <button
-              class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
-              type="button"
-            >
-              Create A Post
-            </button>
-          </router-link>
-        </div>
-      </div>
       <h1
         v-if="post === undefined || post.length == 0"
         class="text-center font-semibold text-2xl pt-4"
@@ -28,7 +13,7 @@
             <router-link
               class="h-full cursor-pointer"
               v-bind:to="{
-                name: 'ViewPost',
+                name: 'ViewAllPost',
                 params: {
                   post_id: post.id,
                   post_email: post.email,

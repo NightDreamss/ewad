@@ -1,5 +1,7 @@
   <template>
-  <section class="h-auto w-full py-24 flex align-middle bg-gray-100">
+  <section
+    class="md:min-h-screen h-auto w-full py-24 flex align-middle bg-gray-100"
+  >
     <div class="container max-w-4xl w-full my-auto mx-auto">
       <ValidationObserver v-slot="{ handleSubmit }">
         <form
@@ -23,7 +25,7 @@
               name="Title"
               rules="required"
               v-slot="{ errors }"
-              class="md:w-full md:pr-20"
+              class="md:w-full md:pr-32"
             >
               <input
                 class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-600"
@@ -47,7 +49,7 @@
               name="Description"
               rules="required"
               v-slot="{ errors }"
-              class="md:w-full md:pr-20"
+              class="md:w-full md:pr-32"
             >
               <input
                 class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-600"
@@ -67,7 +69,7 @@
               >
             </div>
 
-            <div class="md:w-full md:pr-20">
+            <div class="md:w-full md:pr-32">
               <input
                 class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-600"
                 id="image"
@@ -76,6 +78,9 @@
                 accept="image/*"
                 @change="imageData"
               />
+              <span v-if="noImage" class="text-red-500 text-xs"
+                >Please select an image</span
+              >
             </div>
           </div>
           <!--Fourth input -->
@@ -86,7 +91,7 @@
                 >Word File</label
               >
             </div>
-            <div class="md:w-full md:pr-20">
+            <div class="md:w-full md:pr-32">
               <input
                 class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-600"
                 id="file"
@@ -95,6 +100,19 @@
                 accept=".doc, .docx"
                 @change="fileData"
               />
+              <span v-if="noFile" class="text-red-500 text-xs"
+                >Please select a doc file</span
+              >
+            </div>
+          </div>
+          <div class="flex">
+            <div class="my-auto mx-auto pb-4">
+              <input type="checkbox" id="terms" @click="checked" />
+              <label class="pl-2" for="terms">Terms and Agreements</label>
+              <br />
+              <span v-if="isChecked == false" class="text-red-500 text-xs"
+                >Terms and Agreements must be accepted</span
+              >
             </div>
           </div>
           <div class="flex">
@@ -103,7 +121,7 @@
                 class="shadow bg-indigo-600 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
                 type="submit"
               >
-                Create
+                Submit
               </button>
             </div>
           </div>
@@ -137,67 +155,95 @@ import { db } from "../main";
 export default {
   name: "createPost",
   methods: {
+    checked(e) {
+      if (e.target.checked) {
+        this.isChecked = true;
+      } else {
+        this.isChecked = false;
+      }
+    },
     fileData(e) {
       let file = e.target.files[0];
       this.formData.file = file;
-      console.log(file);
+      this.noFile = false;
     },
     imageData(e) {
       let image = e.target.files[0];
       this.formData.image = image;
-      console.log(image);
+      this.noImage = false;
     },
     onSubmit() {
-      firebase
-        .storage()
-        .ref("images/" + `${this.formData.image.name}`)
-        .put(this.formData.image)
-        .then((snapshot) => {
-          snapshot.ref.getDownloadURL().then((imageURL) => {
-            this.formData.imageURL = imageURL;
+      const id = firebase.auth().currentUser.uid;
+      if (this.isChecked == true) {
+        if (this.formData.image != null) {
+          if (this.formData.file != null) {
             firebase
               .storage()
-              .ref("files/" + `${this.formData.file.name}`)
-              .put(this.formData.file)
+              .ref("images/" + `${Date.now() + this.formData.image.name}`)
+              .put(this.formData.image)
               .then((snapshot) => {
-                snapshot.ref.getDownloadURL().then((fileURL) => {
-                  this.formData.fileURL = fileURL;
-                  const id = firebase.auth().currentUser.uid;
-                  db.collection("users")
-                    .doc(id)
-                    .get()
-                    .then((doc) => {
-                      this.formData.faculty = doc.data().faculty;
-                      db.collection("post")
-                        .add({
-                          id: id,
-                          faculty: `${this.formData.faculty}`,
-                          title: `${this.formData.title}`,
-                          description: `${this.formData.description}`,
-                          imageURL: `${this.formData.imageURL}`,
-                          fileURL: `${this.formData.fileURL}`,
-                          date: firebase.firestore.FieldValue.serverTimestamp(),
-                          status: "UNPUBLISHED",
-                        })
-                        .catch(function (e) {
-                          const error = document.getElementById("errorDB");
-                          const errorMessage = document.createTextNode(
-                            e.message
-                          );
-                          error.appendChild(errorMessage);
-                        })
-                        .then(() => {
-                          alert("You've successfully created a post");
-                          this.$router.replace({ name: "Post" });
-                        });
+                snapshot.ref.getDownloadURL().then((imageURL) => {
+                  this.formData.imageURL = imageURL;
+                  firebase
+                    .storage()
+                    .ref("files/" + `${Date.now() + this.formData.file.name}`)
+                    .put(this.formData.file)
+                    .then((snapshot) => {
+                      snapshot.ref.getDownloadURL().then((fileURL) => {
+                        this.formData.fileURL = fileURL;
+                        db.collection("users")
+                          .doc(id)
+                          .get()
+                          .then((doc) => {
+                            this.formData.faculty = doc.data().faculty;
+                            db.collection("post")
+                              .add({
+                                id: id,
+                                faculty: `${this.formData.faculty}`,
+                                title: `${this.formData.title}`,
+                                description: `${this.formData.description}`,
+                                imageURL: `${this.formData.imageURL}`,
+                                imagePath: `${
+                                  Date.now() + this.formData.image.name
+                                }`,
+                                fileURL: `${this.formData.fileURL}`,
+                                filePath: `${
+                                  Date.now() + this.formData.file.name
+                                }`,
+                                date: firebase.firestore.FieldValue.serverTimestamp(),
+                                status: "UNPUBLISHED",
+                              })
+                              .catch(function (e) {
+                                const error = document.getElementById(
+                                  "errorDB"
+                                );
+                                const errorMessage = document.createTextNode(
+                                  e.message
+                                );
+                                error.appendChild(errorMessage);
+                              })
+                              .then(() => {
+                                window.location.reload();
+                                alert("You've successfully created a post");
+                              });
+                          });
+                      });
                     });
                 });
               });
-          });
-        });
+          } else {
+            this.noFile = true;
+          }
+        } else {
+          this.noImage = true;
+        }
+      }
     },
   },
   data: () => ({
+    noImage: false,
+    noFile: false,
+    isChecked: false,
     formData: {
       faculty: "",
       title: "",
