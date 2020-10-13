@@ -53,6 +53,8 @@ export default {
                       faculty: doc.data().faculty,
                       fileURL: doc.data().fileURL,
                       imageURL: doc.data().imageURL,
+                      imagePath: doc.data().imagePath,
+                      filePath: doc.data().filePath,
                       status: doc.data().status,
                       date: doc.data().date.toDate(),
                     };

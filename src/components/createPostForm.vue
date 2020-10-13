@@ -177,16 +177,18 @@ export default {
       if (this.isChecked == true) {
         if (this.formData.image != null) {
           if (this.formData.file != null) {
+            this.formData.imagePath = Date.now() + this.formData.image.name;
+            this.formData.filePath = Date.now() + this.formData.file.name;
             firebase
               .storage()
-              .ref("images/" + `${Date.now() + this.formData.image.name}`)
+              .ref("images/" + `${this.formData.imagePath}`)
               .put(this.formData.image)
               .then((snapshot) => {
                 snapshot.ref.getDownloadURL().then((imageURL) => {
                   this.formData.imageURL = imageURL;
                   firebase
                     .storage()
-                    .ref("files/" + `${Date.now() + this.formData.file.name}`)
+                    .ref("files/" + `${this.formData.filePath}`)
                     .put(this.formData.file)
                     .then((snapshot) => {
                       snapshot.ref.getDownloadURL().then((fileURL) => {
@@ -203,13 +205,9 @@ export default {
                                 title: `${this.formData.title}`,
                                 description: `${this.formData.description}`,
                                 imageURL: `${this.formData.imageURL}`,
-                                imagePath: `${
-                                  Date.now() + this.formData.image.name
-                                }`,
+                                imagePath: `${this.formData.imagePath}`,
                                 fileURL: `${this.formData.fileURL}`,
-                                filePath: `${
-                                  Date.now() + this.formData.file.name
-                                }`,
+                                filePath: `${this.formData.filePath}`,
                                 date: firebase.firestore.FieldValue.serverTimestamp(),
                                 status: "UNPUBLISHED",
                               })
@@ -252,6 +250,8 @@ export default {
       file: null,
       imageURL: "",
       fileURL: "",
+      filePath: "",
+      imagePath: "",
     },
   }),
 };

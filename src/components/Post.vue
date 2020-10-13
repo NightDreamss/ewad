@@ -31,15 +31,6 @@
                 name: 'ViewPost',
                 params: {
                   post_id: post.id,
-                  post_email: post.email,
-                  post_title: post.title,
-                  post_description: post.description,
-                  post_date: post.date,
-                  post_faculty: post.faculty,
-                  post_file: post.fileURL,
-                  post_image: post.imageURL,
-                  post_status: post.status,
-                  post_studentID: post.studentID,
                 },
               }"
             >

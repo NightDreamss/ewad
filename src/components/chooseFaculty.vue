@@ -1,15 +1,19 @@
 <template>
-  <section class="md:min-h-screen h-auto w-full flex align-middle bg-gray-100">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-col text-center w-full mb-20">
-        <h1
-          class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"
-        >
+  <section
+    class="md:min-h-screen h-auto w-full flex align-middle bg-gray-100 py-24"
+  >
+    <div class="container px-5 py-8 mx-auto bg-white">
+      <div class="flex flex-col text-center w-full mb-10">
+        <h1 class="font-semibold text-2xl text-center pt-10">Welcome To</h1>
+        <h1 class="font-semibold text-2xl text-center pb-6 text-blue-600">
+          Uni Magazine
+        </h1>
+        <h1 class="sm:text-2xl text-2xl font-medium title-font text-gray-900">
           Please Select A Faculty
         </h1>
       </div>
-      <div class="flex flex-wrap -m-4 text-center justify-center">
-        <div class="p-4 md:w-1/4 sm:w-1/2 w-full" v-bind:key="cs_id">
+      <div class="flex flex-wrap -m-4 text-center md:w-2/3 mx-auto">
+        <div class="p-4 w-full" v-bind:key="cs_id">
           <router-link
             v-bind:to="{
               name: 'Reports',
@@ -19,7 +23,7 @@
             }"
           >
             <div
-              class="border-2 border-gray-200 px-4 py-6 rounded-lg bg-white cursor-pointer"
+              class="border-2 border-gray-200 px-4 py-6 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200"
               @click="guestCS"
             >
               <svg
@@ -40,7 +44,7 @@
             </div>
           </router-link>
         </div>
-        <div class="p-4 md:w-1/4 sm:w-1/2 w-full" v-bind:key="bm_id">
+        <div class="p-4 w-full" v-bind:key="bm_id">
           <router-link
             v-bind:to="{
               name: 'Reports',
@@ -50,7 +54,7 @@
             }"
           >
             <div
-              class="border-2 border-gray-200 px-4 py-6 rounded-lg bg-white cursor-pointer"
+              class="border-2 border-gray-200 px-4 py-6 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200"
               @click="guestBM"
             >
               <svg
@@ -72,7 +76,7 @@
             </div>
           </router-link>
         </div>
-        <div class="p-4 md:w-1/4 sm:w-1/2 w-full" v-bind:key="gd_id">
+        <div class="p-4 w-full" v-bind:key="gd_id">
           <router-link
             v-bind:to="{
               name: 'Reports',
@@ -82,7 +86,7 @@
             }"
           >
             <div
-              class="border-2 border-gray-200 px-4 py-6 rounded-lg bg-white cursor-pointer"
+              class="border-2 border-gray-200 px-4 py-6 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200"
               @click="guestGD"
             >
               <svg
@@ -120,7 +124,7 @@ export default {
       firebase
         .auth()
         .signInAnonymously()
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -128,7 +132,7 @@ export default {
       firebase
         .auth()
         .signInAnonymously()
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -136,7 +140,7 @@ export default {
       firebase
         .auth()
         .signInAnonymously()
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },

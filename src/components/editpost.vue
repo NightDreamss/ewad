@@ -141,33 +141,34 @@ import "firebase/storage";
 import { db } from "../main";
 export default {
   name: "editPost",
-  props: [
-    "post_email",
-    "post_title",
-    "post_description",
-    "post_faculty",
-    "post_file",
-    "post_id",
-    "post_image",
-    "post_status",
-    "post_studentID",
-    "post_date",
-  ],
+  props: ["post_id"],
   created() {
-    this.formData.title = this.post_title;
-    this.formData.description = this.post_description;
+    db.collection("post")
+      .doc(this.post_id)
+      .get()
+      .then((doc) => {
+        this.formData.title = doc.data().title;
+        this.formData.description = doc.data().description;
+        this.formData.fileURL = doc.data().fileURL;
+        this.formData.imageURL = doc.data().imageURL;
+        this.formData.imagePath = doc.data().imagePath;
+        this.formData.filePath = doc.data().filePath;
+        this.formData.id = this.post_id;
+      });
   },
   data: () => ({
     noImage: false,
     noFile: false,
     formData: {
-      faculty: "",
+      id: "",
       title: "",
       description: "",
       image: null,
       file: null,
       imageURL: "",
       fileURL: "",
+      filePath: "",
+      imagePath: "",
     },
   }),
   methods: {
@@ -181,55 +182,64 @@ export default {
       this.formData.image = image;
       this.noImage = false;
     },
-    onSubmit() {
+    async onSubmit() {
       if (this.formData.image != null) {
         if (this.formData.file != null) {
-          firebase
+          await firebase
             .storage()
-            .ref("files/" + `${this.post_studentID + this.post_title}`)
-            .delete();
+            .ref("files/" + `${this.formData.filePath}`)
+            .delete()
+            .then(() => {
+              firebase.storage().ref;
+              this.formData.imagePath = Date.now() + this.formData.image.name;
+              this.formData.filePath = Date.now() + this.formData.file.name;
 
-          firebase
-            .storage()
-            .ref("images/" + `${this.formData.image.name}`)
-            .put(this.formData.image)
-            .then((snapshot) => {
-              snapshot.ref.getDownloadURL().then((imageURL) => {
-                this.formData.imageURL = imageURL;
-                firebase
-                  .storage()
-                  .ref("files/" + `${this.formData.file.name}`)
-                  .put(this.formData.file)
-                  .then((snapshot) => {
-                    snapshot.ref.getDownloadURL().then((fileURL) => {
-                      this.formData.fileURL = fileURL;
-                      db.collection("post")
-                        .doc(this.post_id)
-                        .update({
-                          title: this.formData.title,
-                          description: this.formData.description,
-                          fileURL: this.formData.fileURL,
-                          imageURL: this.formData.imageURL,
-                        })
-                        .catch(function (e) {
-                          const error = document.getElementById("errorDB");
-                          const errorMessage = document.createTextNode(
-                            e.message
-                          );
-                          error.appendChild(errorMessage);
+              firebase
+                .storage()
+                .ref("images/" + `${this.formData.imagePath}`)
+                .put(this.formData.image)
+                .then((snapshot) => {
+                  snapshot.ref.getDownloadURL().then((imageURL) => {
+                    this.formData.imageURL = imageURL;
+                    firebase
+                      .storage()
+                      .ref("files/" + `${this.formData.filePath}`)
+                      .put(this.formData.file)
+                      .then((snapshot) => {
+                        snapshot.ref.getDownloadURL().then((fileURL) => {
+                          this.formData.fileURL = fileURL;
                         });
-                    });
-                  })
-                  .catch(function (e) {
-                    const error = document.getElementById("errorDB");
-                    const errorMessage = document.createTextNode(e.message);
-                    error.appendChild(errorMessage);
-                  })
-                  .then(() => {
-                    window.location.reload();
-                    alert("You've successfully created a post");
+                      })
+                      .catch(function (e) {
+                        const error = document.getElementById("errorDB");
+                        const errorMessage = document.createTextNode(e.message);
+                        error.appendChild(errorMessage);
+                      })
+                      .then(() => {
+                        db.collection("post")
+                          .doc(this.formData.id)
+                          .update({
+                            title: this.formData.title,
+                            description: this.formData.description,
+                            fileURL: this.formData.fileURL,
+                            imageURL: this.formData.imageURL,
+                            filePath: this.formData.filePath,
+                            imagePath: this.formData.imagePath,
+                          })
+                          .catch(function (e) {
+                            const error = document.getElementById("errorDB");
+                            const errorMessage = document.createTextNode(
+                              e.message
+                            );
+                            error.appendChild(errorMessage);
+                          })
+                          .then(() => {
+                            window.location.reload();
+                            alert("You've successfully updated your post");
+                          });
+                      });
                   });
-              });
+                });
             });
         } else {
           this.noFile = true;

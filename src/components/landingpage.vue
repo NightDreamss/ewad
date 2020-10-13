@@ -22,7 +22,7 @@
         <img
           class="object-cover object-center rounded"
           alt="hero"
-          src="https://s3-alpha-sig.figma.com/img/9b59/d4be/7c16628cc2711c4bd4267d74125b8cdf?Expires=1602460800&Signature=Sassofw1OecivZy3ICDUBXxjmqkmAKcwb7xTEZoCL9wxzub9yFGssMKNqgJl8XWGGZuWNKM4aA8X8yd6IUZezErWUfzaOGRqhlR~ddC8~LY3YKz0gvXEc-odK~EfSIGEOwRfl2gpRhOSYRK9ISkg57wbcjzq2Qz3ix5n-jIy3yLfDKoSF5ocYoN0zYy2QpN059VSUo8IoJMIJqCrMkrrRNULU8SIbGY5IyeKb7ZCyLV59E0nAgUbI140p~N0zMcC1OOtE9LSUU8G-34mcpoYeTt7SbXhh4g40z0ASSxnFDR2SmTIMWf2OQXLBq8h4DA8jES15szjD9ooyEBGP~gItg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+          src="../assets/images/YOUTHS.jpg"
         />
       </div>
     </div>
